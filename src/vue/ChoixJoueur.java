@@ -22,22 +22,6 @@ public class ChoixJoueur extends JFrame {
 	private JButton btnGo;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChoixJoueur frame = new ChoixJoueur();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public ChoixJoueur() {
@@ -85,7 +69,7 @@ public class ChoixJoueur extends JFrame {
 		btnGo = new JButton("");
 		btnGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Arene.main(null);
+				(new Arene()).setVisible(true);
 			}
 		});
 		btnGo.setOpaque(false);

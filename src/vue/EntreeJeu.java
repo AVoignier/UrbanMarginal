@@ -12,31 +12,39 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import controleur.Controle;
+
 public class EntreeJeu extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txfIP;
+	
+	private Controle controle;
+	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EntreeJeu frame = new EntreeJeu();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void clicConnect()
+	{
+		controle.evenementEntreejeu( txfIP.getText() );
 	}
+	
+	public void clicStart()
+	{
+		controle.evenementEntreejeu("server");
+	}
+	
+	public void clicExit() 
+	{
+		controle.evenementEntreejeu("Exit");
+	}
+	
 
 	/**
 	 * Create the frame.
 	 */
-	public EntreeJeu() {
+	public EntreeJeu(Controle controle) {
+		
+		this.controle = controle;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 200);
 		contentPane = new JPanel();
@@ -62,7 +70,7 @@ public class EntreeJeu extends JFrame {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Arene.main(null);
+				clicStart();
 			}
 		});
 		btnStart.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -72,7 +80,7 @@ public class EntreeJeu extends JFrame {
 		JButton btnConnect = new JButton("Connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChoixJoueur.main(null);
+				clicConnect();
 			}
 		});
 		btnConnect.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -87,7 +95,7 @@ public class EntreeJeu extends JFrame {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				clicExit();
 			}
 		});
 		btnExit.setFont(new Font("Tahoma", Font.BOLD, 14));
