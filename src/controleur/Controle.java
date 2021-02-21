@@ -33,11 +33,15 @@ public class Controle implements AsyncResponse {
 	 */
 	private Controle() {
 		this.frmEntreeJeu = new EntreeJeu(this);
+		this.frmChoixJoueur = new ChoixJoueur(this);
+		this.frmArene = new Arene();
+		
 		this.frmEntreeJeu.setVisible(true);
 	}
 
 	public void evenementEntreejeu(String info)
-	{		
+	{	
+		
 		System.out.println(info);
 		
 		if(info == "server")
@@ -46,7 +50,6 @@ public class Controle implements AsyncResponse {
 			serverSocket = new ServeurSocket(this,PORT);
 			
 			frmEntreeJeu.setVisible(false);
-			this.frmArene = new Arene();
 			frmArene.setVisible(true);
 		}
 		else if(info == "Exit")
@@ -60,6 +63,15 @@ public class Controle implements AsyncResponse {
 		}
 		
 	}
+	
+	public void evenementChoixJoueur(String info, int choixPerso) 
+	{
+		System.out.println(info + " s'est connecté avec le personnage " + choixPerso);
+		frmChoixJoueur.setVisible(false);
+		frmArene.setVisible(true);
+		
+		
+	}
 
 	@Override
 	public void reception(Connection connection, String ordre, Object info) {
@@ -69,7 +81,6 @@ public class Controle implements AsyncResponse {
 			if( typeJeu == "client") 
 			{
 				frmEntreeJeu.setVisible(false);
-				this.frmChoixJoueur = new ChoixJoueur();
 				frmChoixJoueur.setVisible(true);
 			}
 		}
