@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controleur.Controle;
+import controleur.Global;
+import outils.son.Son;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class ChoixJoueur extends JFrame {
+public class ChoixJoueur extends JFrame implements Global {
 
 	private static final int NB_MAX_PERSO = 3;
 	
@@ -35,6 +37,11 @@ public class ChoixJoueur extends JFrame {
 	private JButton btnGo;
 	private JLabel lblPersonnage;
 
+	private Son sonBienvenue;
+	private Son sonPrecedent;
+	private Son sonSuivant;
+	private Son sonGo;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -56,12 +63,12 @@ public class ChoixJoueur extends JFrame {
 		contentPane.add(lblPersonnage);
 		
 		JLabel lblFond = new JLabel("");
-		lblFond.setIcon(new ImageIcon(ChoixJoueur.class.getResource("/fonds/fondchoix.jpg")));
+		lblFond.setIcon(new ImageIcon( getClass().getResource( CHEMIN_FONDS+"fondchoix.jpg")));
 		lblFond.setBounds(0, 0, 400, 261);
 		contentPane.add(lblFond);
 		
 		txfPseudo = new JTextField();
-		txfPseudo.setBounds(144, 241, 119, 20);
+		txfPseudo.setBounds(140, 239, 125, 20);
 		contentPane.add(txfPseudo);
 		txfPseudo.setColumns(10);
 		
@@ -137,6 +144,13 @@ public class ChoixJoueur extends JFrame {
 		btnPrecedent.addMouseListener(mouse);
 		btnSuivant.addMouseListener(mouse);
 
+		sonBienvenue = new Son( getClass().getClassLoader().getResource(CHEMIN_SONS+"welcome.wav") );
+		sonPrecedent = new Son( getClass().getClassLoader().getResource(CHEMIN_SONS+"precedent.wav") );
+		sonSuivant = new Son( getClass().getClassLoader().getResource(CHEMIN_SONS+"suivant.wav") );
+		sonGo = new Son( getClass().getClassLoader().getResource(CHEMIN_SONS+"go.wav") );
+		
+		sonBienvenue.play();
+		
 	}
 	
 	private void clicDroite() 
@@ -150,6 +164,8 @@ public class ChoixJoueur extends JFrame {
 		
 		affichePerso();
 		
+		sonSuivant.play();
+		
 	}
 	
 	private void clicGauche() 
@@ -162,15 +178,19 @@ public class ChoixJoueur extends JFrame {
 			idPerso = NB_MAX_PERSO;
 		
 		affichePerso();
+		
+		sonPrecedent.play();
 	}
 	
 	private void clicGo(String pseudo) 
 	{
 		System.out.println("GO");
 		if( pseudo.length()>0 )
-		{
-			System.out.println("Le pseuso est : " + pseudo);
-			controle.evenementChoixJoueur(pseudo, idPerso);
+		{			
+			String message = MOT_ECHANGE_CREATION_PERSO + SYMBOLE_SEPARATEUR +pseudo+ SYMBOLE_SEPARATEUR +idPerso;
+			controle.evenementChoixJoueur(message);
+			
+			sonGo.play();
 		}
 		else 
 		{
@@ -181,11 +201,7 @@ public class ChoixJoueur extends JFrame {
 	
 	public void affichePerso() 
 	{
-		String nomPerso = "C:\\Users\\Alexandre\\eclipse-workspace\\UrbanMarginal\\media\\personnages\\perso";
-		nomPerso += idPerso;
-		nomPerso += "marche1d1.gif";
-		
-		lblPersonnage.setIcon( new ImageIcon(nomPerso) );
+		lblPersonnage.setIcon( new ImageIcon( getClass().getResource(CHEMIN_PERSONNAGES+"perso" + idPerso + "marche1d1.gif" ) ) );
 	}
 	
 	public void sourisNormale() 
